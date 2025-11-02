@@ -1,28 +1,30 @@
-# Vestti Marketplace — Phase 1 (Demo)
+# marketplaceecommerce
 
-Local quickstart
+*Automatically synced with your [v0.app](https://v0.app) deployments*
 
-1. Install dependencies
+[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/vestticontato-5457s-projects/v0-marketplaceecommerce)
+[![Built with v0](https://img.shields.io/badge/Built%20with-v0.app-black?style=for-the-badge)](https://v0.app/chat/projects/DY1wTGDzQiN)
 
-```powershell
-cd F:\vesttibeta
-npm install
-```
+## Overview
 
-2. Create a Supabase project and set environment variables (use `.env.local` copying from `.env.local.example`).
+This repository will stay in sync with your deployed chats on [v0.app](https://v0.app).
+Any changes you make to your deployed app will be automatically pushed to this repository from [v0.app](https://v0.app).
 
-3. Run migrations (use Supabase SQL editor or psql) with `scripts/migrations.sql`.
+## Deployment
 
-4. (Optional) Run `npm run seed` after setting `SUPABASE_SERVICE_ROLE_KEY` to create demo vendors/products.
+Your project is live at:
 
-5. Start dev server
+**[https://vercel.com/vestticontato-5457s-projects/v0-marketplaceecommerce](https://vercel.com/vestticontato-5457s-projects/v0-marketplaceecommerce)**
 
-```powershell
-npm run dev
-```
+## Build your app
 
-Open http://localhost:3000
+Continue building your app on:
 
-Notes
-- This scaffold is a demo. Replace mock data and integrate Supabase services in Phase 2.
-- Do NOT commit real keys to git. Use Vercel environment variables for deployment.
+**[https://v0.app/chat/projects/DY1wTGDzQiN](https://v0.app/chat/projects/DY1wTGDzQiN)**
+
+## How It Works
+
+1. Create and modify your project using [v0.app](https://v0.app)
+2. Deploy your chats from the v0 interface
+3. Changes are automatically pushed to this repository
+4. Vercel deploys the latest version from this repository

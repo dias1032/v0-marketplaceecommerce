@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carrinho - Marketplace</title>
+    <link rel="stylesheet" href="/assets/css/style.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <button class="btn-icon mobile-menu-btn" data-action="toggle-menu" aria-label="Menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+
+          <a href="/" class="logo">Marketplace</a>
+
+          <div class="search-bar">
+            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+            <input type="search" class="search-input" placeholder="Buscar produtos..." />
+          </div>
+
+          <nav class="nav">
+            <a href="/">Início</a>
+            <a href="#categorias">Categorias</a>
+          </nav>
+
+          <div class="header-actions">
+            <a href="/login.html" class="btn-icon" aria-label="Conta">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 2rem; padding-bottom: 4rem">
+      <h1 style="margin-bottom: 2rem">Carrinho de Compras</h1>
+
+      <div style="display: grid; grid-template-columns: 1fr; gap: 2rem">
+        <!-- Cart Items -->
+        <div>
+          <div id="cart-items-list">
+            <!-- Cart items will be loaded here -->
+          </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div>
+          <div style="background: var(--color-surface); border-radius: var(--radius-lg); padding: 1.5rem; position: sticky; top: calc(var(--header-height) + 1rem)">
+            <h2 style="font-size: 1.25rem; margin-bottom: 1.5rem">Resumo do Pedido</h2>
+
+            <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--color-border)">
+              <div style="display: flex; justify-content: space-between">
+                <span style="color: var(--color-text-secondary)">Subtotal</span>
+                <span id="subtotal">R$ 0,00</span>
+              </div>
+              <div style="display: flex; justify-content: space-between">
+                <span style="color: var(--color-text-secondary)">Frete</span>
+                <span id="shipping">Calcular no checkout</span>
+              </div>
+              <div style="display: flex; justify-content: space-between">
+                <span style="color: var(--color-text-secondary)">Desconto</span>
+                <span id="discount" style="color: var(--color-success)">R$ 0,00</span>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem; font-size: 1.25rem; font-weight: 700">
+              <span>Total</span>
+              <span id="total">R$ 0,00</span>
+            </div>
+
+            <a href="/checkout.html" class="btn btn-primary" style="width: 100%; justify-content: center; margin-bottom: 1rem">Finalizar Compra</a>
+            <a href="/" class="btn btn-outline" style="width: 100%; justify-content: center">Continuar Comprando</a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer style="background-color: var(--color-dark-bg); color: var(--color-dark-text); padding: 3rem 0">
+      <div class="container">
+        <div style="text-align: center; font-size: 0.875rem; opacity: 0.6">
+          <p>&copy; 2025 Marketplace. Todos os direitos reservados.</p>
+        </div>
+      </div>
+    </footer>
+
+    <style>
+      @media (min-width: 1024px) {
+        main > div {
+          grid-template-columns: 2fr 1fr;
+        }
+      }
+    </style>
+
+    <script type="module" src="/assets/js/app.js"></script>
+    <script type="module" src="/assets/js/pages/cart.js"></script>
+  </body>
+</html>

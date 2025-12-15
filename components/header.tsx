@@ -6,9 +6,6 @@ import { Badge } from "@/components/ui/badge"
 import { Search, ShoppingCart, User, Heart, Menu } from "lucide-react"
 import Link from "next/link"
 import { useCart } from "@/components/cart-provider"
-import { UserNav } from "@/components/user-nav"
-import { NotificationsPopover } from "@/components/notifications-popover"
-import { ChatPopover } from "@/components/chat-popover"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
@@ -16,10 +13,7 @@ import Image from "next/image"
 interface HeaderProps {
   user?: {
     id: string
-    name: string
     email: string
-    avatar: string | null
-    username: string | null
     role: string
   } | null
 }
@@ -59,12 +53,6 @@ export function Header({ user }: HeaderProps) {
           </form>
 
           <nav className="hidden md:flex items-center gap-2">
-            {user && (
-              <>
-                <NotificationsPopover userId={user.id} />
-                <ChatPopover userId={user.id} />
-              </>
-            )}
             <Button variant="ghost" size="sm" asChild>
               <Link href="/wishlist">
                 <Heart className="h-5 w-5" />
@@ -81,7 +69,11 @@ export function Header({ user }: HeaderProps) {
               </Link>
             </Button>
             {user ? (
-              <UserNav user={user} />
+              <Button variant="ghost" size="sm" asChild>
+                <Link href={user.role === "admin" ? "/admin" : user.role === "seller" ? "/seller" : "/account"}>
+                  <User className="h-5 w-5" />
+                </Link>
+              </Button>
             ) : (
               <Button variant="ghost" size="sm" asChild>
                 <Link href="/auth/login">
@@ -97,11 +89,6 @@ export function Header({ user }: HeaderProps) {
         </div>
 
         <div className="hidden md:flex items-center gap-6 py-2 text-sm border-t overflow-x-auto">
-          {user && (
-            <Link href="/feed" className="whitespace-nowrap hover:text-primary font-medium">
-              Feed
-            </Link>
-          )}
           <Link href="/shop?category=novidades" className="whitespace-nowrap hover:text-primary font-medium">
             Novidades
           </Link>

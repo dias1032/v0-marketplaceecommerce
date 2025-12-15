@@ -1,7 +1,6 @@
 "use client"
 
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
-import { createClient } from "@/lib/supabase/client"
 
 interface CartItem {
   id: string
@@ -30,93 +29,25 @@ const CartContext = createContext<CartContextType | undefined>(undefined)
 
 export function CartProvider({ children, userId }: { children: ReactNode; userId?: string }) {
   const [items, setItems] = useState<CartItem[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const supabase = createClient()
 
-  // Load cart on mount
   useEffect(() => {
     loadCart()
-  }, [userId])
+  }, [])
 
-  const loadCart = async () => {
+  const loadCart = () => {
     try {
-      if (userId) {
-        // Load from database for logged-in users
-        const { data } = await supabase
-          .from("cart_items")
-          .select(
-            `
-            *,
-            products (
-              name,
-              price,
-              images,
-              stock,
-              slug,
-              stores (
-                id,
-                name
-              )
-            )
-          `,
-          )
-          .eq("user_id", userId)
-
-        if (data) {
-          const cartItems: CartItem[] = data.map((item: any) => ({
-            id: item.id,
-            productId: item.product_id,
-            name: item.products.name,
-            price: item.products.price,
-            quantity: item.quantity,
-            image: Array.isArray(item.products.images) ? item.products.images[0] : "/placeholder.svg",
-            storeId: item.products.stores.id,
-            storeName: item.products.stores.name,
-            stock: item.products.stock,
-            slug: item.products.slug,
-          }))
-          setItems(cartItems)
-        }
-      } else {
-        // Load from localStorage for guests
-        const savedCart = localStorage.getItem("cart")
-        if (savedCart) {
-          setItems(JSON.parse(savedCart))
-        }
+      const savedCart = localStorage.getItem("cart")
+      if (savedCart) {
+        setItems(JSON.parse(savedCart))
       }
     } catch (error) {
       console.error("Error loading cart:", error)
-    } finally {
-      setIsLoading(false)
     }
   }
 
-  const saveCart = async (newItems: CartItem[]) => {
+  const saveCart = (newItems: CartItem[]) => {
     setItems(newItems)
-
-    if (userId) {
-      // Save to database for logged-in users
-      try {
-        // Remove all existing items
-        await supabase.from("cart_items").delete().eq("user_id", userId)
-
-        // Insert new items
-        if (newItems.length > 0) {
-          await supabase.from("cart_items").insert(
-            newItems.map((item) => ({
-              user_id: userId,
-              product_id: item.productId,
-              quantity: item.quantity,
-            })),
-          )
-        }
-      } catch (error) {
-        console.error("Error saving cart to database:", error)
-      }
-    } else {
-      // Save to localStorage for guests
-      localStorage.setItem("cart", JSON.stringify(newItems))
-    }
+    localStorage.setItem("cart", JSON.stringify(newItems))
   }
 
   const addItem = (item: Omit<CartItem, "id">) => {

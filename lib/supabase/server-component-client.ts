@@ -1,5 +1,5 @@
 import { cookies } from "next/headers"
-import { createClient } from "./server" // Importa o Arquivo 1 (lib/supabase/server.ts)
+import { createClient } from "./server"
 
 /**
  * Cria um cliente Supabase para Server Components.
@@ -7,6 +7,6 @@ import { createClient } from "./server" // Importa o Arquivo 1 (lib/supabase/ser
  * Use em qualquer Server Component que precisa acessar o usuário autenticado.
  */
 export const createServerComponentClient = async () => {
-  const cookieStore = cookies()
+  const cookieStore = await cookies()
   return createClient(cookieStore)
 }

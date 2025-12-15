@@ -2,10 +2,10 @@ import type React from "react"
 import "./globals.css"
 import { Inter } from "next/font/google"
 import { Toaster } from "@/components/ui/sonner"
-import Header from "@/components/Header"
-import Footer from "@/components/Footer"
-import { createServerComponentClient } from "@/lib/supabase/server-component-client"
+import Header from "@/components/header"
+import Footer from "@/components/footer"
 import { Providers } from "@/components/providers"
+import { getSession } from "@/lib/auth/session"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
 
@@ -20,11 +20,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const supabase = await createServerComponentClient()
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const session = await getSession()
 
   return (
     <html lang="pt-BR" className="dark">
@@ -32,9 +28,9 @@ export default async function RootLayout({
         <script src="https://sdk.mercadopago.com/js/v2"></script>
       </head>
       <body className={`${inter.variable} font-sans flex flex-col min-h-screen`}>
-        <Providers userId={user?.id}>
+        <Providers userId={session?.id}>
           <div className="flex flex-col min-h-screen">
-            <Header user={user} />
+            <Header user={session} />
             <main className="flex-grow">{children}</main>
             <Footer />
             <Toaster />

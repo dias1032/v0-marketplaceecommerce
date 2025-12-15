@@ -1,32 +1,20 @@
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
+import { createServerClient } from "@supabase/ssr"
+import type { cookies } from "next/headers"
 
-export const createClient = (cookieStore: ReturnType<typeof cookies>) => {
-  return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value
-        },
-        set(name: string, value: string, options: any) {
-          try {
-            cookieStore.set({ name, value, ...options })
-          } catch (error) {
-            // O método `set` foi chamado de um Server Component.
-            // Está tudo bem, mas devemos ignorar o erro.
-          }
-        },
-        remove(name: string, options: any) {
-          try {
-            cookieStore.set({ name, value: '', ...options })
-          } catch (error) {
-            // O método `remove` foi chamado de um Server Component.
-            // Está tudo bem, mas devemos ignorar o erro.
-          }
-        },
+export const createClient = (cookieStore: Awaited<ReturnType<typeof cookies>>) => {
+  return createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, {
+    cookies: {
+      getAll() {
+        return cookieStore.getAll()
       },
-    }
-  )
+      setAll(cookiesToSet) {
+        try {
+          cookiesToSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options))
+        } catch (error) {
+          // O método `set` foi chamado de um Server Component.
+          // Está tudo bem, mas devemos ignorar o erro.
+        }
+      },
+    },
+  })
 }

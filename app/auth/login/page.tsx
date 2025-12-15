@@ -2,7 +2,6 @@
 
 import type React from "react"
 
-import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -20,27 +19,29 @@ export default function LoginPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    const supabase = createClient()
     setIsLoading(true)
     setError(null)
 
     try {
-      const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
       })
-      if (authError) throw authError
 
-      if (authData.user) {
-        const { data: profile } = await supabase.from("profiles").select("role").eq("id", authData.user.id).single()
+      const data = await response.json()
 
-        if (profile?.role === "admin") {
-          router.push("/admin")
-        } else {
-          router.push("/")
-        }
-        router.refresh()
+      if (!response.ok) {
+        throw new Error(data.error || "Erro ao fazer login")
       }
+
+      // Redirect based on role
+      if (data.user.role === "admin") {
+        router.push("/admin")
+      } else {
+        router.push("/")
+      }
+      router.refresh()
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "Erro ao fazer login")
     } finally {
